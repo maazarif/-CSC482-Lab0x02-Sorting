@@ -1,3 +1,13 @@
+/*
+* Maaz Arif
+* CSC482-Lab0x02-Sorting
+* https://github.com/maazarif/-CSC482-Lab0x02-Sorting/blob/master/Lab0x02.java
+* */
+
+
+
+
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.Arrays;
@@ -257,8 +267,9 @@ public class Lab0x02 {
         String[] output = new String [length];
         //System.arraycopy(arr, 0, tempArray, 0, length);
         // declare count array
-        int[] count = new int[256];
         int digits = (int) Math.pow(2, (d*8));
+        //System.out.print("\n digits  = " + digits + "\n");
+        int[] count = new int[digits];
         // ABC:
         // FGT:
         // IOP: 232
@@ -387,29 +398,85 @@ public class Lab0x02 {
             }
         }
 
-        System.out.print("\nRADIX SORT\n");
-        prev = 0;
-        curr = 0;
+        for(int d = 1; d <= 3; d++) {
+            System.out.print("\nRADIX SORT | d = " + d + "\n");
+            prev = 0;
+            curr = 0;
+            System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
+            for (int n = 10; n < 1000; n *= 2) {
+                for (int k = 4; k < 20; k *= 2) {
+                    String[] s = GenerateTestsLists(n, k, 96, 122);
+                    prev = curr;
+                    init = getCPUTime();
+                    lab0x02.radixSort(s, d, k);
+                    end = getCPUTime();
+                    curr = end - init;
+                    if (prev == 0) System.out.printf("%-10d%10d%10d%10.3f%16.3f\n", n, k, curr, 0.000, 0.00);
+                    else
+                        System.out.printf("%-10d%10d%10d%10.3f%16.3f\n", n, k, curr, (float) curr / prev, (float) (n * k / (n / 2) * k));
 
-        System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
-        for(int n = 10; n < 1000; n*=2){
-            for(int k = 4; k < 20; k*=2) {
-                String[] s = GenerateTestsLists(n, k, 96, 122);
-                prev = curr;
-                init = getCPUTime();
-                lab0x02.radixSort(s, 1, k);
-                end = getCPUTime();
-                curr = end - init;
-                if(prev == 0) System.out.printf("%-10d%10d%10d%10.3f%16.3f\n", n, k, curr, 0.000, 0.00);
-                else System.out.printf("%-10d%10d%10d%10.3f%16.3f\n", n, k, curr, (float)curr/prev, (float) (n*k/(n/2)*k)  );
-
-
+                }
             }
+        }
+    }
+
+
+    public static void VerificationTests(){
+        Lab0x02 lab0x02 = new Lab0x02();
+
+        System.out.print("\nGenerating New List \n");
+        String[] list = GenerateTestsLists(10, 3, 65, 90);
+        //lab0x02.printArray(list);
+
+        // selection
+        System.out.print("\n Selection sort .... \n");
+        lab0x02.selectionSort(list, 10);
+        System.out.print("Verifying ... ");
+        if(isSorted(list)){
+            System.out.print("Sorted");
+        } else {
+            System.out.print("Not Sorted");
         }
 
 
+        System.out.print("\nGenerating New List \n");
+        String[] list1 = GenerateTestsLists(10, 3, 65, 90);
+
+        // merge
+        System.out.print("\n Merge sort .... \n");
+        lab0x02.MergeSort(list1, 0, 9);
+        System.out.print("Verifying ... ");
+        if(isSorted(list1)){
+            System.out.print("Sorted");
+        } else {
+            System.out.print("Not Sorted");
+        }
+
+        System.out.print("\nGenerating New List \n");
+        String[] list2 = GenerateTestsLists(10, 3, 65, 90);
+
+        // quick
+        System.out.print("\n Quick sort .... \n");
+        lab0x02.quickSort(list2, 0, 9);
+        System.out.print("Verifying ... ");
+        if(isSorted(list2)){
+            System.out.print("Sorted");
+        } else {
+            System.out.print("Not Sorted");
+        }
 
 
+        System.out.print("\nGenerating New List \n");
+        String[] list3 = GenerateTestsLists(10, 3, 65, 90);
+        // radix
+        System.out.print("\n Radix sort .... \n");
+        lab0x02.radixSort(list3, 1, 3);
+        System.out.print("Verifying ... ");
+        if(isSorted(list3)){
+            System.out.print("Sorted");
+        } else {
+            System.out.print("Not Sorted");
+        }
 
 
     }
@@ -446,7 +513,8 @@ public class Lab0x02 {
 
         //lab0x02.quickSort(list, 0, 9);
 
-        Tests();
+        VerificationTests();
+        //Tests();
     }
 
 
