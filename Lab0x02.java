@@ -188,7 +188,6 @@ public class Lab0x02 {
             int mid = (l+h)/2;
             MergeSort(arr, l , mid);
             MergeSort(arr, mid+1, h);
-
             merge(arr, l, mid, h);
         }
 
@@ -252,6 +251,7 @@ public class Lab0x02 {
 
     /// Radix Sort
     // we will follow the creel video implementation
+    // MSD radix sort
     void radixSort(String arr[], int d, int k){
         // this will take in the length of each string <<< k
         // length of the array << arr
@@ -301,6 +301,7 @@ public class Lab0x02 {
             // update the temp array, size is length,
             // we go backwards of the temp array
             // we will check the kth index in the last element of temp array
+
             for(int x = length-1; x >= 0; x--){
                 int a = (int)(arr[x].charAt(i));
                 // this a is the
@@ -310,6 +311,100 @@ public class Lab0x02 {
             }
             // copy the output array to the arr
             System.arraycopy(output, 0, arr, 0, length);
+        }
+        // end: arr = temp array
+        //System.arraycopy(output, 0, arr, 0, length);
+        /*System.out.println("\nSorting with Radix Sort....\n");
+        //printArray(arr);
+        System.out.print("Verifying ...");
+        if (isSorted(arr)) {
+            System.out.println(" SORTED!");
+        } else {
+            System.out.println(" NOT SORTED!");
+        }
+        */
+
+        //245
+    }
+
+
+
+    void ImprovedradixSort(String arr[], int d, int k){
+        // this will take in the length of each string <<< k
+        // length of the array << arr
+        // d indicates the nimber of b buckets... i will use d = 1, which is 256 buckets
+
+        // 1) we have a init array
+        // 2) iterate over each element, check every char in the string element
+        // the whole process is repeated k times
+        // we will have a count array, the index will be from minV to maxV
+
+        System.out.print("wtdffffffff please work i am uselesssssssssssssssswddwdw\n");
+        // temp array = arr
+        int length = arr.length;
+        String[] output = new String [length];
+        //System.arraycopy(arr, 0, tempArray, 0, length);
+        // declare count array
+        int digits = (int) Math.pow(2, (d*8));
+        //System.out.print("\n digits  = " + digits + "\n");
+        int[] count = new int[digits];
+        // ABC:
+        // FGT:
+        // IOP: 232
+        // OIU: 237
+        // QWE: 237
+        // WER: 238
+        // ZXC: 285
+
+        int itr = k/d;
+        int countIndex;
+
+        //for(int i = k-1; i >= 0; i--){
+        for(int i = k-1; i >= d; i -= itr){
+            countIndex = 0;
+            System.out.print("i is " + i + "\n");
+            //System.out.print("a");
+            // i will follow lexicographical
+            for(int c = 0; c < digits; c++){
+                count[c] = 0;
+            }
+
+            for(int c = 0; c < length; c++){
+                //System.out.print("lolololol\n");
+                // increment the count array index according to value
+                countIndex = 0;
+                for(int x = 0; x < d; x++){
+                    countIndex += arr[c].charAt(i-x);
+                    System.out.print("i: " + i + "  x: " + x + "  c: " + c + " countIndex: " + countIndex + "\n");
+                }
+                count[countIndex] += 1;
+                //System.out.printf("INDEX INTO THE COUNT IS %d \n",(int)(arr[c].charAt(i)));
+            }
+
+            System.out.print("entering the prefix sum \n");
+            // find the prefix sum
+            // current val + previous values
+            for(int j = 1; j < digits; j++){
+                count[j] += count[j-1];
+                //System.out.printf("Prefix Sum %d: %d \n", j, count[j]);
+            }
+
+            //System.out.println("ENTERING");
+            // update the temp array, size is length,
+            // we go backwards of the temp array
+            // we will check the kth index in the last element of temp array
+            System.out.print("copying the array s \n");
+            for(int x = length-1; x >= 0; x--){
+                //System.out.print("x: " + x + "\n");
+                int a = (int)(arr[x].charAt(i));
+                // this a is the
+                int b = --count[a]; // b-1 will tell us where the value will go in the output array
+                System.out.printf("arr[x] is %s, a is %d and b is %d   count[a] = %d\n", arr[x], a, b, count[a]);
+                output[b] = arr[x];
+            }
+            // copy the output array to the arr
+            System.arraycopy(output, 0, arr, 0, length);
+            System.out.print("\nOutput array is  " + Arrays.toString(output) + "\n");
         }
         // end: arr = temp array
         //System.arraycopy(output, 0, arr, 0, length);
@@ -340,12 +435,12 @@ public class Lab0x02 {
     public static void Tests(){
         long init, end, prev = 0, curr = 0;
         Lab0x02 lab0x02 = new Lab0x02();
-
+/*
         System.out.print("SELECTION SORT\n");
 
 
         System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
-        for(int n = 10; n < 1000; n*=2){
+        for(int n = 10; n < 100000; n*=2){
             for(int k = 4; k < 20; k*=2) {
                 String[] s = GenerateTestsLists(n, k, 96, 122);
                 prev = curr;
@@ -357,14 +452,14 @@ public class Lab0x02 {
                 else System.out.printf("%-10d%10d%10d%10.3f%12.3f \n", n, k, curr, (float)prev/curr, (float) ( Math.pow(n,2)/Math.pow(n/2.0, 2) ));
             }
         }
-
+*/
 
         System.out.print("\nQUICK SORT\n");
         prev = 0;
         curr = 0;
 
         System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
-        for(int n = 10; n < 1000; n*=2){
+        for(int n = 10; n < 100000; n*=2){
             for(int k = 4; k < 20; k*=2) {
                 String[] s = GenerateTestsLists(n, k, 96, 122);
                 prev = curr;
@@ -379,13 +474,14 @@ public class Lab0x02 {
         }
 
 
-
+/*
         System.out.print("\nMERGE SORT\n");
         prev = 0;
         curr = 0;
+        int N = 100000;
 
         System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Time");
-        for(int n = 10; n < 1000; n*=2){
+        for(int n = 10; n < 100000; n*=2){
             for(int k = 4; k < 20; k*=2) {
                 String[] s = GenerateTestsLists(n, k, 96, 122);
                 prev = curr;
@@ -403,7 +499,7 @@ public class Lab0x02 {
             prev = 0;
             curr = 0;
             System.out.printf("%-10s%10s%10s%16s%26s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
-            for (int n = 10; n < 1000; n *= 2) {
+            for (int n = 10; n < 1000000; n *= 2) {
                 for (int k = 4; k < 20; k *= 2) {
                     String[] s = GenerateTestsLists(n, k, 96, 122);
                     prev = curr;
@@ -418,12 +514,13 @@ public class Lab0x02 {
                 }
             }
         }
+        */
     }
 
 
     public static void VerificationTests(){
         Lab0x02 lab0x02 = new Lab0x02();
-
+/*
         System.out.print("\nGenerating New List \n");
         String[] list = GenerateTestsLists(10, 3, 65, 90);
         //lab0x02.printArray(list);
@@ -451,9 +548,11 @@ public class Lab0x02 {
         } else {
             System.out.print("Not Sorted");
         }
+*/
+
 
         System.out.print("\nGenerating New List \n");
-        String[] list2 = GenerateTestsLists(10, 3, 65, 90);
+        String[] list2 = GenerateTestsLists(1000000, 3, -9999, 99999);
 
         // quick
         System.out.print("\n Quick sort .... \n");
@@ -465,7 +564,7 @@ public class Lab0x02 {
             System.out.print("Not Sorted");
         }
 
-
+/*
         System.out.print("\nGenerating New List \n");
         String[] list3 = GenerateTestsLists(10, 3, 65, 90);
         // radix
@@ -477,7 +576,7 @@ public class Lab0x02 {
         } else {
             System.out.print("Not Sorted");
         }
-
+*/
 
     }
 
@@ -493,7 +592,6 @@ public class Lab0x02 {
         //System.out.print(s.charAt(0) >> 4);
 
         */
-
         //String[] list = GenerateTestsLists(10, 3, 65, 90);
         //lab0x02.printArray(list);
 
@@ -513,8 +611,38 @@ public class Lab0x02 {
 
         //lab0x02.quickSort(list, 0, 9);
 
-        VerificationTests();
+        //VerificationTests();
+//        VerificationTests();
         //Tests();
+/*
+        for(int d = 1; d <= 3; d++) {
+            System.out.print("\nRADIX SORT | d = " + d + "\n");
+            double prev = 0;
+            double curr = 0;
+            System.out.printf("%-20s%-20s%-20s%-20s%-20s \n", "N", "k", "Time", "Doubling Time", "Predicted Doubling Ratio");
+            for (int n = 10; n < 1000000; n *= 2) {
+                for (int k = 4; k < 20; k *= 2) {
+                    String[] s = GenerateTestsLists(n, k, 1, 256);
+                    prev = curr;
+                    double init = getCPUTime();
+                    lab0x02.ImprovedradixSort(s, d, k);
+                    double end = getCPUTime();
+                    curr = end - init;
+                    if (prev == 0) System.out.printf("%-20d%-20d%-20.2f%-20.3f%-20.3f\n", n, k, curr, 0.000, 0.00);
+                    else
+                        System.out.printf("%-20d%-20d%-20.2f%-20.3f%-20.3f\n", n, k, curr, (float) curr / prev, (float) (n * k / (n / 2) * k));
+
+                }
+            }
+        }
+*/
+        String[] s = GenerateTestsLists(10, 4, 1, 256);
+        //lab0x02.quickSort(s, 0, 99);
+
+        lab0x02.ImprovedradixSort(s, 2, 4);
+
+        if(isSorted(s)) System.out.print("SORTED\n");
+        else System.out.print("NOT SORTED\n");
     }
 
 

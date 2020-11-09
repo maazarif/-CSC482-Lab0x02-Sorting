@@ -273,9 +273,9 @@ public class Lab0x03 {
 
     static void found(int[] arr){
         if(arr[0] == -1 && arr[1] == -1 && arr[2] == -1){
-            System.out.printf("%20s", "NO");
+            System.out.printf("%-20s", "NO");
         } else{
-            System.out.printf("%20s", "YES");
+            System.out.printf("%-20s", "YES");
         }
     }
 
@@ -296,8 +296,8 @@ public class Lab0x03 {
 
         int[] retVal = new int[3];
 
-        System.out.printf("%s%80s%80s\n", "Brute Force", "Fast", "Fastest");
-        System.out.printf("%s%20s%20s%15s%20s%20s%20s%20s%20s%20s%20s%20s%20s\n",
+        System.out.printf("%-80s%-80s%-80s\n", "Brute Force", "Fast", "Fastest");
+        System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s%-20s\n",
                 "N", "Time Taken", "FOUND", "DR", "EDR",
                 "Time Taken", "FOUND", "DR", "EDR",
                 "Time Taken", "FOUND", "DR", "EDR");
@@ -315,23 +315,26 @@ public class Lab0x03 {
 
             /////////////// BF
             //System.out.print("\n ThreeSumBF Testing \n");
+
             init = getCPUTime();
             retVal = ThreeSumBF(test);
+
             //) {
                 //System.out.print("\n IT WAS FOUND \n");
             //} else {
                 //System.out.print("\n  Sadly it was not  \n");
             //}
+
             end = getCPUTime();
             bfCurrTime = end-init;
-            System.out.printf("%d%15d", n, bfCurrTime);
+            System.out.printf("%-20d%-20d", n, bfCurrTime);
             found(retVal);
             if(count == 0){
-                System.out.printf("%20s%20s", "NA", "NA");
+                System.out.printf("%-20s%-20s", "NA", "NA");
             } else {
                 float bf = (float) bfCurrTime / bfPreTime;
-                System.out.printf("%20.3f", bf);
-                System.out.printf("%20.3f", (float) (Math.pow(n,3)/ Math.pow(n/2.0, 3)));
+                System.out.printf("%-20.3f", bf);
+                System.out.printf("%-20.3f", (float) (Math.pow(n,3)/ Math.pow(n/2.0, 3)));
             }
 
 
@@ -349,17 +352,18 @@ public class Lab0x03 {
             //else {
                 //System.out.print("\n  Sadly it was not  \n");
             //}
+
             end = getCPUTime();
             fastCurrTime = end - init;
-            System.out.printf("%20d", fastCurrTime);
+            System.out.printf("%-20d", fastCurrTime);
             found(retVal);
             //System.out.printf("\nImproved time is %d \n", end - init);
             if(count == 0){
-                System.out.printf("%20s%20s", "NA", "NA");
+                System.out.printf("%-20s%-20s", "NA", "NA");
             } else{
                 float fast = (float)  fastCurrTime/fastPreTime;
-                System.out.printf("%20.3f", fast);
-                System.out.printf("%20.3f",  (float) ( (Math.pow(n, 2)*log2(n)) / (Math.pow(n/2.0, 2)*log2(n/2)) )  ); /// EXPECTED: N2logN
+                System.out.printf("%-20.3f", fast);
+                System.out.printf("%-20.3f",  (float) ( (Math.pow(n, 2)*log2(n)) / (Math.pow(n/2.0, 2)*log2(n/2)) )  ); /// EXPECTED: N2logN
             }
 
 
@@ -372,17 +376,18 @@ public class Lab0x03 {
             //else {
             //System.out.print("\n  Sadly it was not  \n");
             //}
+
             end = getCPUTime();
             fastestCurrTime = end - init;
-            System.out.printf("%20d", fastestCurrTime);
+            System.out.printf("%-20d", fastestCurrTime);
             found(retVal);
             //System.out.printf("\nImproved time is %d \n", end - init);
             if(count == 0){
-                System.out.printf("%20s%20s\n", "NA", "NA");
+                System.out.printf("%-20s%-20s\n", "NA", "NA");
             } else{
                 float fastest = (float)  fastestCurrTime/fastestPreTime;
-                System.out.printf("%20.3f", fastest);
-                System.out.printf("%20.3f\n",  (float) ( (Math.pow(n, 2)) / (Math.pow(n/2.0, 2)) )  ); /// EXPECTED: N2logN
+                System.out.printf("%-20.3f", fastest);
+                System.out.printf("%-20.3f\n",  (float) ( (Math.pow(n, 2)) / (Math.pow(n/2.0, 2)) )  ); /// EXPECTED: N2logN
             }
 
 
@@ -391,7 +396,7 @@ public class Lab0x03 {
     }
 
     public static void main(String[] args) {
-        VerificationTests(4, 1000000, 99999, -99999);
+        VerificationTests(4, 10000000, 99999, -99999);
 /*
         long init, end;
         int[] test = GenerateLists(100000, 100000, -100000);

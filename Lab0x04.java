@@ -4,16 +4,14 @@ import java.lang.management.ThreadMXBean;
 public class Lab0x04 {
     public static long[] table;
 
-    public static double log2(int N){
-        return (Math.log(N)/Math.log(2));
+    public static int log2(int N){
+        return (int) (Math.log(N)/Math.log(2));
     }
 
     public static long getCPUTime(){
         ThreadMXBean bean = ManagementFactory.getThreadMXBean();
         return bean.isCurrentThreadCpuTimeSupported() ? bean.getCurrentThreadCpuTime() : 0L;
     }
-
-
 
     /// normal fibonacci
     static long fibRecur(int X){
@@ -32,8 +30,6 @@ public class Lab0x04 {
         }
     }
     */
-
-
     static void tableInit(int X){
         table = new long[ X+1];
         for(int i = 0; i <= X; i++){
@@ -60,7 +56,6 @@ public class Lab0x04 {
         }
     }
 
-
     /// loop fibonacci
     static long fibLoop(int X){
         long A = 0;
@@ -76,7 +71,6 @@ public class Lab0x04 {
         return B;
     }
 
-
     static long exponent(int X, int index){
         long total = X;
         for(int i = 0; i < index; i++){
@@ -85,7 +79,6 @@ public class Lab0x04 {
         return total;
 
     }
-
 
     static long toPower(int X, int p){
         //int bin[] = new int[40];
@@ -110,14 +103,15 @@ public class Lab0x04 {
 
     /// Matrix fibonacci
     static long fibMatrix(int X){
-        int[][] M = {{1, 1}, {1, 0}};
-        int[][] temp = {{1, 1}, {1, 0}};
-        int[][] next = new int[2][2];
+        long[][] M = {{1, 1}, {1, 0}};
+        long[][] temp = {{1, 1}, {1, 0}};
+        long[][] next = new long[2][2];
 
         //System.out.printf("M is  {{%d, %d}, {%d, %d}} \n",
          //       M[0][0], M[1][0], M[0][1], M[1][1]);
 
         if(X == 0 || X == 1) return X;
+
         for(int i = 1; i <= (X-2); i++){
             // get each element of row
             //System.out.printf("temp[0][0] = %d, temp[1][0] = %d, temp[0][1] = %d and temp[1][1] = %d \n",
@@ -162,6 +156,48 @@ public class Lab0x04 {
     }
 
 
+    /**
+    * Code from: https://nayuki.io/res/fast-fibonacci-algorithm/FastFibonacci.java
+    * */
+    static long fibMatrixFast(int X){
+        long[] matrix = {1, 1, 1, 0};      ///// using 1d array instead of 2d
+        if(X < 0){
+            System.out.print("ERROR: Value must not be less than 0\n");
+            return -1;
+        }
+        return matrixPower(matrix, X)[1];
+    }
+
+    static long[] matrixPower(long[] matrix, int X){
+        long[] result = {1, 0, 0, 1};
+        while(X != 0){
+            if(X%2 != 0){
+                result = matrixMultiply(result, matrix);
+            }
+            X /= 2;
+            matrix = matrixMultiply(matrix, matrix);
+        }
+        return result;
+    }
+
+    /** 0, 1, 2, 3
+     *    A             B
+     * 0    1        0     1
+     * 2    3        2     3
+     *
+     * */
+
+    static long[] matrixMultiply(long[] A, long[] B){
+        return new long[]{
+                A[0]*B[0] + A[1]*B[2],     /// row1 col1
+                A[0]*B[1] + A[1]*B[3],     /// row1 col2
+                A[2]*B[0] + A[3]*B[2],     /// row2 col1
+                A[2]*B[1] + A[3]*B[3]      /// row2 col2
+        };
+    }
+
+
+
     static void Tests(int X){
         int N;
         int count = 0;
@@ -190,8 +226,7 @@ public class Lab0x04 {
             loopPreTime = loopCurrTime;
             matrixPreTime = matrixCurrTime;
 
-            N = (int)Math.ceil(log2(x+1));
-
+            N = (int) Math.ceil(log2(x+1));
 
             System.out.printf("%d%10d", x, N);
 
@@ -266,7 +301,8 @@ public class Lab0x04 {
 
 
     public static void main(String[] args) {
-        Tests(80);
+        Tests(12);
+        //System.out.print( "very fast boiii:  " + fibMatrixFast(100) + "\n");
 /*
 
         long init = getCPUTime();
